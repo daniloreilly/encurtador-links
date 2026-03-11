@@ -11,7 +11,7 @@ import (
 
 var DB *gorm.DB
 
-func shortenUrl(c *gin.Context) {
+func ShortenUrl(c *gin.Context) {
 	var input models.ShortenRequest
 
 	if err := c.ShouldBindJSON(&input); err != nil {
