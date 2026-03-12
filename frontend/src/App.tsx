@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from './types/link';
+import type { Link } from './types/link';
 import { shortenURL } from './handlers/linkHandler';
 import { LinkCard } from './components/LinkCard';
 import { LinkEmpty } from './components/LinkEmpty';
-import logoIcon from './assets/logo.svg';
-import abc from './assets/abc.svg';
+import iconLogo from './assets/iconHeader.svg';
 
 function App() {
     const [links, setLinks] = useState<Link[]>(() => {
@@ -47,7 +46,7 @@ function App() {
     <div className="min-h-screen bg-bottom flex flex-col items-center py-12 px-4 font-sans">
       {/* Header */}
       <div className="text-center mb-8">
-        <img src={abc} alt="Logo" className="h-28 mx-auto mb-4" />
+        <img src={iconLogo} alt="Logo" className="h-28 mx-auto mb-4" />
         <h1 className="text-3xl font-medium text-gray-800 mb-2">Encurtador de URL</h1>
         <p className="text-gray-500">Transforme URLs longas em links curtos</p>
       </div>
