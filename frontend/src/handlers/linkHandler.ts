@@ -1,4 +1,4 @@
-import { Link } from '../types/link';
+import type { Link } from '../types/link';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
