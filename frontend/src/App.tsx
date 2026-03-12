@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { Link } from './types/link'; 
-import { shortenURL } from './handlers/linkHandler'; 
-import { LinkCard } from './components/LinkCard';  
+import { Link } from './types/link';
+import { shortenURL } from './handlers/linkHandler';
+import { LinkCard } from './components/LinkCard';
+import { LinkEmpty } from './components/LinkEmpty';
+import  logoIcon  from './assets/logo.svg';
+import  abc  from './assets/abc.svg';
 
 function App() {
   const [links, setLinks] = useState<Link[]>([]);
@@ -9,12 +12,12 @@ function App() {
 
   const handleShorten = async () => {
     const urlRegex = /^(https?:\/\/)[^\s$.?#].[^\s]*$/;
-    
+
     if (!urlRegex.test(urlInput)) {
       alert("Por favor, insira uma URL válida começando com http:// ou https://");
       return;
     }
-  
+
     try {
       const newLink = await shortenURL(urlInput);
       setLinks((prev) => [newLink, ...prev]);
@@ -25,42 +28,51 @@ function App() {
   };
 
   const handleDelete = (code: string) => {
-    setLinks((prev) => prev.filter(link => link.short_code !== code));
+    setLinks((prev) => prev.filter(link => link.short_url !== code));
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-12 px-4 font-sans">
+    <div className="min-h-screen bg-bottom flex flex-col items-center py-12 px-4 font-sans">
       {/* Header omitido para brevidade */}
-      
+      <div className="text-center mb-8">
+        <img src={abc} alt="Logo" className="h-28 mx-auto mb-4" />
+        <h1 className="text-3xl font-medium text-gray-800 mb-2">Encurtador de URL</h1>
+        <p className="text-gray-500">Transforme URLs longas em links curtos</p>
+      </div>
+
       {/* Input */}
-      <div className="w-full max-w-3xl bg-white rounded-full shadow-sm border border-gray-200 p-2 flex items-center mb-12">
-        <input 
-          type="text" 
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleShorten();
+        }}
+        className="w-full max-w-3xl bg-input rounded-full shadow-sm border-17 border-white p-2 flex items-center mb-12"
+      >
+        <input
+          type="text"
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
-          placeholder="Cole seu link aqui..." 
+          placeholder="Cole seu link aqui..."
           className="flex-1 bg-transparent px-6 py-3 outline-none"
         />
-        <button 
-          onClick={handleShorten} 
+        <button
+          type="submit"
           className="bg-indigo-600 text-white px-8 py-3 rounded-full font-medium"
         >
           Encurtar
         </button>
-      </div>
+      </form>
 
       {/* Lista Dinâmica */}
       <div className="w-full max-w-3xl space-y-4">
         {links.length === 0 ? (
-          <div className="text-center py-20 opacity-20">
-             <p className="text-gray-400 italic">Sua lista de links aparecerá aqui...</p>
-          </div>
+          <LinkEmpty />
         ) : (
           links.map((link) => (
-            <LinkCard 
-              key={link.short_code} 
-              link={link} 
-              onDelete={handleDelete} 
+            <LinkCard
+              key={link.short_url}
+              link={link}
+              onDelete={handleDelete}
             />
           ))
         )}

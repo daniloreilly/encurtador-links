@@ -1,3 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Fredoka', sans-serif;
+  --color-bottom: #ecf3fe;  
+  --color-input: #f3f3f5;
+}
