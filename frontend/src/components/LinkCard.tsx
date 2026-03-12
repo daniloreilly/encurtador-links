@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from '../types/link';
+import type { Link } from '../types/link';
 import trashIcon from '../assets/trash.svg';
 import copyIcon from '../assets/copy.svg';
 import logoIcon from '../assets/logo.svg';
