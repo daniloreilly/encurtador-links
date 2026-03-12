@@ -8,7 +8,7 @@ export const LinkEmpty = () => {
           <img src={logoIcon} alt="" />
         </span>
       </div>
-      
+    
       <div className="flex-1 min-w-0 flex flex-col items-center justify-center text-center font-sans">
         <p className="text-gray-500 text-lg font-medium">
           Nenhum link encontrado
