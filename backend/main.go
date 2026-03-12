@@ -13,7 +13,16 @@ func main() {
 	handler.DB = DB
 
 	r := gin.Default()
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{
+			"http://localhost:5173",
+			"https://seu-projeto-encurtador.vercel.app",
+		},
+		AllowMethods:     []string{"POST", "GET", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	r.POST("/shorten", handler.ShortenUrl)
 	r.GET("/:code", handler.RedirectURL)
