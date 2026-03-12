@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from './types/link';
 import { shortenURL } from './handlers/linkHandler';
 import { LinkCard } from './components/LinkCard';
 import { LinkEmpty } from './components/LinkEmpty';
-import  logoIcon  from './assets/logo.svg';
-import  abc  from './assets/abc.svg';
+import logoIcon from './assets/logo.svg';
+import abc from './assets/abc.svg';
 
 function App() {
-  const [links, setLinks] = useState<Link[]>([]);
+    const [links, setLinks] = useState<Link[]>(() => {
+    const savedLinks = localStorage.getItem('url-links');
+    return savedLinks ? JSON.parse(savedLinks) : [];
+  });
   const [urlInput, setUrlInput] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    localStorage.setItem('url-links', JSON.stringify(links));
+  }, [links]);
 
   const handleShorten = async () => {
     const urlRegex = /^(https?:\/\/)[^\s$.?#].[^\s]*$/;
@@ -18,12 +26,16 @@ function App() {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       const newLink = await shortenURL(urlInput);
       setLinks((prev) => [newLink, ...prev]);
       setUrlInput("");
     } catch (err) {
       alert("Erro ao conectar com o servidor.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -33,7 +45,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-bottom flex flex-col items-center py-12 px-4 font-sans">
-      {/* Header omitido para brevidade */}
+      {/* Header */}
       <div className="text-center mb-8">
         <img src={abc} alt="Logo" className="h-28 mx-auto mb-4" />
         <h1 className="text-3xl font-medium text-gray-800 mb-2">Encurtador de URL</h1>
@@ -57,9 +69,14 @@ function App() {
         />
         <button
           type="submit"
-          className="bg-indigo-600 text-white px-8 py-3 rounded-full font-medium"
+          disabled={isLoading}
+          className={`px-8 py-3 rounded-full font-medium transition ${
+            isLoading
+              ? 'bg-gray-400 cursor-not-allowed text-white'
+              : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+          }`}
         >
-          Encurtar
+          {isLoading ? 'Encurtando...' : 'Encurtar'}
         </button>
       </form>
 
