@@ -11,7 +11,7 @@ func RedirectURL(c *gin.Context) {
 	code := c.Param("code")
 	var link models.Link
 
-	if err := DB.Where("short_code = ?", code).First(&link).Error; err != nil {
+	if err := DB.Where("short_url = ?", code).First(&link).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Link não encontrado"})
 		return
 	}
