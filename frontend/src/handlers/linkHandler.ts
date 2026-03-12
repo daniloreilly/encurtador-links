@@ -1,6 +1,6 @@
 import { Link } from '../types/link';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 export const shortenURL = async (longUrl: string): Promise<Link> => {
   const response = await fetch(`${API_URL}/shorten`, {
