@@ -10,6 +10,10 @@ interface LinkCardProps {
   onDelete: (code: string) => void;
 }
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const displayUrl = API_URL.replace(/^https?:\/\//, '');
+
+
 export const LinkCard = ({ link, onDelete }: LinkCardProps) => {
   const [isCopying, setIsCopying] = useState(false);
 
@@ -17,7 +21,7 @@ export const LinkCard = ({ link, onDelete }: LinkCardProps) => {
     if (isCopying) return;
     setIsCopying(true);
     try {
-      await navigator.clipboard.writeText(`localhost:8080/${link.short_url}`);
+      await navigator.clipboard.writeText(`${API_URL}/${link.short_url}`);
       // Feedback por 2 segundos
       setTimeout(() => setIsCopying(false), 2000);
     } catch (err) {
@@ -39,12 +43,12 @@ export const LinkCard = ({ link, onDelete }: LinkCardProps) => {
           URL Encurtada
         </p>
         <a
-          href={`http://localhost:8080/${link.short_url}`}
+          href={`${API_URL}/${link.short_url}`}
           target="_blank"
           rel="noreferrer"
           className="text-indigo-600 font-medium block mb-4 hover:underline truncate"
         >
-          {`localhost:8080/${link.short_url}`}
+          {`${displayUrl}/${link.short_url}`}
         </a>
 
         <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold mb-1">
