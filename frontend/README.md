@@ -7,6 +7,20 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## Configuration
+
+To run the frontend application, you need to create a `.env` file in the `frontend` directory with the following environment variables:
+
+- `VITE_API_URL`: The URL of the backend API. For example: `http://localhost:8080`
+- `VITE_BASE_URL`: The base URL for the shortened links. For example: `localhost:8080`
+
+Example `.env` file:
+
+```
+VITE_API_URL=http://localhost:8080
+VITE_BASE_URL=localhost:8080
+```
+
 ## React Compiler
 
 The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
@@ -64,7 +78,7 @@ export default defineConfig([
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: inport.meta.dirname,
       },
       // other options...
     },
